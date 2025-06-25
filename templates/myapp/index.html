@@ -27,7 +27,7 @@ $(function() {
             return;
         }
         $.ajax({
-            url: '/detail',
+            url: '{% url detail %}',
             method: 'POST',
             data: { id: postId },
             success: function(data) {
