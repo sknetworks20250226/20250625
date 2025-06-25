@@ -7,7 +7,8 @@ def index(request):
     return render(request,'myapp/index.html',{'posts':posts})
 
 def detail(request):
-    id = request.POST.get('id')
+    print('detail...............')
+    id = request.GET.get('id')
     try:    
         post = Post.objects.get(id=id)
         content = post.content

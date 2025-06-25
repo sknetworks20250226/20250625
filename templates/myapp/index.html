@@ -4,11 +4,11 @@
 {% block body %}
 <div class="container mt-5">
     <div class="list-group">
-    {% for post in posts %}                
-        <a href="#" class="list-group-item list-group-item-action post-link" data-id="{{ post.id }}">
+    {% for post in posts %}       
+        <a href="#" class="list-group-item list-group-item-action post-link" data-id="{{ post.id }}">            
             {{ post.title }} - {{ post.created_at|date:'Y-m-d H:i' }}
         </a> 
-        <div class="post-detail" style="display:none;"></div>       
+        <div class="post-detail" style="display:none;"></div>               
     {% empty %}
         게시글이 없습니다.
     {% endfor %}
@@ -27,8 +27,8 @@ $(function() {
             return;
         }
         $.ajax({
-            url: '{% url detail %}',
-            method: 'POST',
+            url: '/myapp/detail',
+            method: 'GET',
             data: { id: postId },
             success: function(data) {
                 $detailDiv.html(data).slideDown();
