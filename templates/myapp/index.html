@@ -26,17 +26,17 @@ $(function() {
             $detailDiv.slideUp();
             return;
         }
-        // $.ajax({
-        //     url: '/detail',
-        //     method: 'GET',
-        //     data: { id: postId },
-        //     success: function(data) {
-        //         $detailDiv.html(data).slideDown();
-        //     },
-        //     error: function() {
-        //         $detailDiv.html('<div class="text-danger">상세 정보를 불러오지 못했습니다.</div>').slideDown();
-        //     }
-        // });
+        $.ajax({
+            url: '/detail',
+            method: 'POST',
+            data: { id: postId },
+            success: function(data) {
+                $detailDiv.html(data).slideDown();
+            },
+            error: function() {
+                $detailDiv.html('<div class="text-danger">상세 정보를 불러오지 못했습니다.</div>').slideDown();
+            }
+        });
     });
 });
 </script>
