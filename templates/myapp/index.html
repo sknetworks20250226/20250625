@@ -3,10 +3,10 @@
 
 {% block body %}
 <div class="container mt-5">
-    <ul class="list-group"></ul>
+    <ul class="list-group" ></ul>
     {% for post in posts %}        
         <!-- <li class="list-group-item active" aria-current="true">An active item</li> -->
-        <li class="list-group-item">
+        <li class="list-group-item list-group-item-action">
             {{ post.title }} - {{ post.created_at|date:'Y-m-d H:i' }}
         </li>        
     {% empty %}
