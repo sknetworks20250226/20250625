@@ -3,15 +3,10 @@
 
 {% block body %}
 <div class="container mt-5">
-<button type="button" class="btn btn-primary">Primary</button>
-<button type="button" class="btn btn-secondary">Secondary</button>
-<button type="button" class="btn btn-success">Success</button>
-<button type="button" class="btn btn-danger">Danger</button>
-<button type="button" class="btn btn-warning">Warning</button>
-<button type="button" class="btn btn-info">Info</button>
-<button type="button" class="btn btn-light">Light</button>
-<button type="button" class="btn btn-dark">Dark</button>
-
-<button type="button" class="btn btn-link">Link</button>
+    {% for post in posts %}
+        {{ post.title }} - {{ post.created_at|date:'Y-m-d H:i' }}
+    {% empty %}
+        게시글이 없습니다.
+    {% endfor %}
 </div>
 {% endblock %}
