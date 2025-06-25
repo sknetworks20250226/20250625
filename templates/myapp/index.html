@@ -3,48 +3,67 @@
 
 {% block body %}
 <div class="container mt-5">
-    <div class="list-group">
-    {% for post in posts %}       
-        <a href="#" class="list-group-item list-group-item-action post-link" data-id="{{ post.id }}">            
-            {{ post.title }} - {{ post.created_at|date:'Y-m-d H:i' }}
-        </a> 
-        <textarea class="post-detail form-control" style="display:none"></textarea>
+  <div class="list-group">
+    {% for post in posts %}
+      <a href="#" class="list-group-item list-group-item-action post-link" data-id="{{ post.id }}">
+        {{ post.title }} - {{ post.created_at|date:'Y-m-d H:i' }}
+      </a>
     {% empty %}
-        게시글이 없습니다.
+      게시글이 없습니다.
     {% endfor %}
-    </div>
+  </div>
+
+  <!-- 상세내용 textarea는 페이지에 딱 하나 -->
+  <div id="post-detail-container" style="display:none; margin-top:10px;">
+    <textarea class="post-detail form-control" readonly style="resize:none"></textarea>
+  </div>
 </div>
 
+
 <script>
-function autoResizeTextarea($detailDiv) {
-    $detailDiv.height(0); // 높이 초기화
-    $detailDiv.height($detailDiv[0].scrollHeight); // 실제 내용 높이로 조정
-}
-$(function() {
-    $('.post-link').on('click', function(e) {
-        e.preventDefault();
-        var $link = $(this);
-        var postId = $link.data('id');
-        var $detailDiv = $link.next('.post-detail');        
-        if ($detailDiv.is(':visible')) {
-            $detailDiv.slideUp();
-            return;
-        }
-        $.ajax({
-            url: '/myapp/detail',
-            method: 'GET',
-            data: { id: postId },
-            success: function(data) {
-                $detailDiv.html(data.content).slideDown();
-                autoResizeTextarea($detailDiv);
-            },
-            error: function() {
-                $detailDiv.html('<div class="text-danger">상세 정보를 불러오지 못했습니다.</div>').slideDown();
-            }
-        });
+$(function () {
+  const $detailContainer = $('#post-detail-container');
+  const $detailTextarea = $detailContainer.find('.post-detail');
+
+  $('.post-link').on('click', function (e) {
+    e.preventDefault();
+
+    const $link = $(this);
+    const postId = $link.data('id');
+
+    // 이미 같은 글 내용 보여주고 있으면 토글(숨김) 처리
+    if ($detailContainer.is(':visible') && $detailContainer.prev()[0] === $link[0]) {
+      $detailContainer.slideUp();
+      return;
+    }
+
+    $.ajax({
+      url: '/myapp/detail',
+      method: 'GET',
+      data: { id: postId },
+      success: function (data) {
+        $detailTextarea.val(data.content || '내용이 없습니다.');
+
+        // 높이 조절
+        setTimeout(() => {
+          $detailTextarea[0].style.height = '0px';
+          $detailTextarea[0].style.height = $detailTextarea[0].scrollHeight + 'px';
+        }, 100);
+
+        // 상세내용 영역을 클릭한 a 바로 아래로 이동시키고 표시
+        $detailContainer.insertAfter($link).slideDown();
+      },
+      error: function () {
+        $detailTextarea.val('상세 정보를 불러오지 못했습니다.');
+        $detailContainer.insertAfter($link).slideDown();
+      }
     });
+  });
 });
+
+
 </script>
+
 
 {% endblock %}
 
