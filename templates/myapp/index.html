@@ -16,16 +16,16 @@
 </div>
 
 <script>
-function autoResizeTextarea($textarea) {
-    $textarea.height(0); // 높이 초기화
-    $textarea.height($textarea[0].scrollHeight); // 실제 내용 높이로 조정
+function autoResizeTextarea($detailDiv) {
+    $detailDiv.height(0); // 높이 초기화
+    $detailDiv.height($detailDiv[0].scrollHeight); // 실제 내용 높이로 조정
 }
 $(function() {
     $('.post-link').on('click', function(e) {
         e.preventDefault();
         var $link = $(this);
         var postId = $link.data('id');
-        var $detailDiv = $link.next('.post-detail');
+        var $detailDiv = $link.next('.post-detail');        
         if ($detailDiv.is(':visible')) {
             $detailDiv.slideUp();
             return;
@@ -36,7 +36,7 @@ $(function() {
             data: { id: postId },
             success: function(data) {
                 $detailDiv.html(data.content).slideDown();
-                autoResizeTextarea($textarea);
+                autoResizeTextarea($detailDiv);
             },
             error: function() {
                 $detailDiv.html('<div class="text-danger">상세 정보를 불러오지 못했습니다.</div>').slideDown();
