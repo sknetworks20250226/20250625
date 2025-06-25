@@ -3,16 +3,18 @@
 
 {% block body %}
 <div class="container mt-5">
-    <ul class="list-group" ></ul>
-    {% for post in posts %}        
-        <!-- <li class="list-group-item active" aria-current="true">An active item</li> -->
-        <li class="list-group-item list-group-item-action">
+    <div class="list-group">
+    {% for post in posts %}                
+        <a href="#" class="list-group-item list-group-item-action">
             {{ post.title }} - {{ post.created_at|date:'Y-m-d H:i' }}
-        </li>        
+        </a>        
     {% empty %}
         게시글이 없습니다.
     {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
+
+
+
 
