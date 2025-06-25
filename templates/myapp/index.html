@@ -5,15 +5,42 @@
 <div class="container mt-5">
     <div class="list-group">
     {% for post in posts %}                
-        <a href="#" class="list-group-item list-group-item-action">
+        <a href="#" class="list-group-item list-group-item-action post-link" data-id="{{ post.id }}">
             {{ post.title }} - {{ post.created_at|date:'Y-m-d H:i' }}
-        </a>        
+        </a> 
+        <div class="post-detail" style="display:none;"></div>       
     {% empty %}
         게시글이 없습니다.
     {% endfor %}
     </div>
 </div>
 {% endblock %}
+
+<script>
+$(function() {
+    $('.post-link').on('click', function(e) {
+        e.preventDefault();
+        var $link = $(this);
+        var postId = $link.data('id');
+        var $detailDiv = $link.next('.post-detail');
+        if ($detailDiv.is(':visible')) {
+            $detailDiv.slideUp();
+            return;
+        }
+        // $.ajax({
+        //     url: '/detail',
+        //     method: 'GET',
+        //     data: { id: postId },
+        //     success: function(data) {
+        //         $detailDiv.html(data).slideDown();
+        //     },
+        //     error: function() {
+        //         $detailDiv.html('<div class="text-danger">상세 정보를 불러오지 못했습니다.</div>').slideDown();
+        //     }
+        // });
+    });
+});
+</script>
 
 
 
